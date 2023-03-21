@@ -1,7 +1,7 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  */
-package com.mycompany.pdftextstripper;
+package com.i3cubes.pdfripper;
 
 /**
  *
@@ -15,6 +15,8 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
@@ -36,6 +38,7 @@ public class PDFParserTextStripper extends PDFTextStripper {
 
     @Override
     protected void writeString(String string, List<TextPosition> textPositions) throws IOException {
+        System.out.println("STRING["+string+"]");
         for (TextPosition text : textPositions) {
             System.out.println("String[" + text.getXDirAdj() + "," + text.getYDirAdj() + " fs=" + text.getFontSizeInPt()
                     + " xscale=" + text.getXScale() + " height=" + text.getHeightDir() + " space="
@@ -58,15 +61,18 @@ public class PDFParserTextStripper extends PDFTextStripper {
             if (pdd != null) {
                 try {
                     pdd.close();
-                } catch (IOException e) {
+                } catch (IOException ex) {
+                    Logger.getLogger(PDFParserTextStripper.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         // have to give local file location.
-        File f = new File("C:\\Users\\malee\\Downloads\\PO.pdf");
+        String file_path="D:\\I3C\\Projects\\PDF-Ripping\\invoice.pdf";
+        
+        File f = new File(file_path);
         FileInputStream fis = null;
         try {
             fis = new FileInputStream(f);
@@ -81,5 +87,8 @@ public class PDFParserTextStripper extends PDFTextStripper {
                 ex.printStackTrace();
             }
         }
+        
+        //new test1().getTextinArea(file_path);
+        //new PDFTableStripper().readTable(file_path);
     }
 }
